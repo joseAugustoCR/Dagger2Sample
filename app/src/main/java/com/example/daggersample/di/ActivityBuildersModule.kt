@@ -17,17 +17,12 @@ public abstract class ActivityBuildersModule {
     @Module
     companion object {
 
-        @JvmStatic
-        @Provides
-        fun doSomething(): String {
-            return "Doing something..."
-        }
-
 //        @JvmStatic
-//        @Provides
-//        @Named("doAnotherThing")
-//        fun doAnotherThing(): String {
-//            return "Doing another thing..."
+//        @Provides //declare a string dependency
+//        fun doSomething(): String {
+//            return "Doing something..."
 //        }
+
+
     }
 }
