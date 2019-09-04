@@ -1,10 +1,8 @@
 package com.example.daggersample.di
 
-import com.example.daggersample.AuthActivity
+import com.example.daggersample.ui.auth.AuthActivity
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
-import javax.inject.Named
 
 @Module
 public abstract class ActivityBuildersModule {

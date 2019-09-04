@@ -7,11 +7,13 @@ import dagger.Component
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
+@Singleton
 @Component(
     modules = arrayOf(AndroidSupportInjectionModule::class, ActivityBuildersModule::class, AppModule::class)
 )
-public interface AppComponent : AndroidInjector<MyApplication> {
+interface AppComponent : AndroidInjector<MyApplication> {
 
     @Component.Builder
     interface Builder{

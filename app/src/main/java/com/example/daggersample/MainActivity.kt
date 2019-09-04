@@ -1,10 +1,7 @@
 package com.example.daggersample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import dagger.Module
-import dagger.Provides
-import dagger.android.support.DaggerAppCompatActivity
+import com.example.daggersample.viewmodels.MainViewModel
 
 class MainActivity : BaseActivity<MainViewModel>() {
 

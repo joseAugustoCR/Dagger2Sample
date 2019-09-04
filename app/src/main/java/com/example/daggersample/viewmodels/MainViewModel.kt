@@ -1,4 +1,4 @@
-package com.example.daggersample
+package com.example.daggersample.viewmodels
 
 import android.app.Application
 import android.util.Log.d

@@ -9,6 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.daggersample.R
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class AppModule {
@@ -16,19 +17,21 @@ class AppModule {
     @Module
     companion object {
 
+        @Singleton
         @JvmStatic
         @Provides
         fun provideRequestOptions(): RequestOptions {
             return RequestOptions().placeholder(R.color.colorPrimary).error(R.color.colorPrimaryDark)
         }
 
-
+        @Singleton
         @JvmStatic
         @Provides
         fun provideRequestManager(application: Application, requestOptions: RequestOptions): RequestManager {
             return Glide.with(application).setDefaultRequestOptions(requestOptions)
         }
 
+        @Singleton
         @JvmStatic
         @Provides
         fun provideAppDrawable(application:Application) : Drawable{
