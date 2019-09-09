@@ -9,7 +9,9 @@ import dagger.android.support.DaggerApplication
 import javax.inject.Scope
 
 
+@SuppressWarnings("unchecked")
 class MyApplication: DaggerApplication() {
+    @SuppressWarnings("unchecked")
     override fun applicationInjector(): AndroidInjector<MyApplication>? {
         return DaggerAppComponent.builder().application(this).build()
     }

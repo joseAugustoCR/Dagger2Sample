@@ -2,6 +2,8 @@ package com.example.daggersample.ui.auth
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log.d
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
 import com.example.daggersample.R
@@ -14,7 +16,6 @@ class AuthActivity : DaggerAppCompatActivity() {
 
     var viewModel:AuthViewModel?=null
 
-    @Blablaa(name = "") class c
 
     @Inject
     lateinit var drawableLogo:Drawable
@@ -31,16 +32,38 @@ class AuthActivity : DaggerAppCompatActivity() {
         viewModel = ViewModelProviders.of(this, providerFactory).get(AuthViewModel::class.java)
 
         setLogo()
+        setClickListeners()
+        subscribeObservers()
+
+    }
 
 
+    fun setClickListeners(){
+        login_button.setOnClickListener {
+            attemptLogin()
+        }
     }
 
     fun setLogo(){
         requestManager.load(drawableLogo).into(login_logo)
     }
 
+    fun attemptLogin(){
+        if(user_id_input.text.toString().isEmpty()){
+            return
+        }
+        viewModel?.authenticateWithId(user_id_input.text.toString().toInt())
+    }
+
+    fun subscribeObservers(){
+        viewModel?.observeUser()?.observe(this,
+            Observer {
+                it.let {
+                    d("auth","changed")
+                }
+            })
+
+    }
+
 }
 
-annotation class Blablaa(val name: String)
-
-annotation class Blabla(val name: String)
