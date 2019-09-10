@@ -3,6 +3,8 @@ package com.example.daggersample.ui.auth
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log.d
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
@@ -56,13 +58,43 @@ class AuthActivity : DaggerAppCompatActivity() {
     }
 
     fun subscribeObservers(){
-        viewModel?.observeUser()?.observe(this,
+        viewModel?.observeAuthState()?.observe(this,
             Observer {
                 it.let {
-                    d("auth","changed")
+                    when(it.status){
+                        AuthResource.AuthStatus.LOADING ->{
+                            showProgressBar(true)
+
+                        }
+                        AuthResource.AuthStatus.AUTHENTICATED ->{
+                            showProgressBar(false)
+                            d("auth", "success")
+
+                        }
+                        AuthResource.AuthStatus.ERROR ->{
+                            showProgressBar(false)
+                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+
+                        }
+                        AuthResource.AuthStatus.NOT_AUTHENTICATED ->{
+                            showProgressBar(false)
+
+
+                        }
+                    }
                 }
             })
 
+
+    }
+
+
+    fun showProgressBar(isVisible:Boolean){
+        if(isVisible){
+            progress_bar.visibility = View.VISIBLE
+        }else{
+            progress_bar.visibility = View.GONE
+        }
     }
 
 }

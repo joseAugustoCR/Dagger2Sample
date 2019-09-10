@@ -27,9 +27,7 @@ ext {
 
 kapt { correctErrorTypes = true}
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:unchecked"
-}
+
 
 
 

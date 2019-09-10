@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import com.example.daggersample.SessionManager
 import com.example.daggersample.networking.User
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(var endpointsInterface: EndpointsInterface) : ViewModel() {
-    var authUser = MediatorLiveData<User>()
+
+class AuthViewModel @Inject constructor(var endpointsInterface: EndpointsInterface, var sessionManager: SessionManager) : ViewModel() {
 
 
     init {
@@ -19,20 +21,33 @@ class AuthViewModel @Inject constructor(var endpointsInterface: EndpointsInterfa
     }
 
 
-    fun observeUser() : LiveData<User> {
-        return authUser
+    fun observeAuthState() : LiveData<AuthResource<User>> {
+        return sessionManager.getAuthUser()
+    }
+
+    fun queryUserId(id:Int) : LiveData<AuthResource<User>>{
+        return LiveDataReactiveStreams.fromPublisher(
+            endpointsInterface.getUser(id)
+                .onErrorReturn(Function<Throwable, User> {
+                    val errorUser = User()
+                    errorUser.id = -1
+                    errorUser
+                })
+
+                // wrap User object in AuthResource
+                .map(Function<User, AuthResource<User>> { user ->
+                    if (user.id == -1) {
+                        AuthResource.error("Could not authenticate", null)
+                    } else AuthResource.authenticated(user)
+                })
+                .subscribeOn(Schedulers.io())
+        )
     }
 
     fun authenticateWithId(userId:Int){
-        var source : LiveData<User> = LiveDataReactiveStreams.fromPublisher(
-            endpointsInterface.getUser(userId)
-                .subscribeOn(Schedulers.io())
-        )
+        d("auth", "attempting to login")
 
-        authUser.addSource(source, {
-            authUser.value = it
-            authUser.removeSource(source)
-        })
+        sessionManager.authenticateWithId(queryUserId(userId))
     }
 
 }

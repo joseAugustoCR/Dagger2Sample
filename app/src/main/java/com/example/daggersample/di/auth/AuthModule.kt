@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 
-@SuppressWarnings("unchecked")
 @Module
 class AuthModule {
 
