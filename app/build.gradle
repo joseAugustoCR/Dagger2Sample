@@ -58,4 +58,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation "android.arch.lifecycle:reactivestreams:1.1.1"
+    implementation "org.jetbrains.anko:anko-commons:0.10.8"
+
 }

@@ -9,9 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
 import com.example.daggersample.R
+import com.example.daggersample.ui.main.MainActivity
+import com.example.daggersample.viewmodels.MainViewModel
 import com.example.daggersample.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class AuthActivity : DaggerAppCompatActivity() {
@@ -69,6 +72,7 @@ class AuthActivity : DaggerAppCompatActivity() {
                         AuthResource.AuthStatus.AUTHENTICATED ->{
                             showProgressBar(false)
                             d("auth", "success")
+                            onLoginSuccess()
 
                         }
                         AuthResource.AuthStatus.ERROR ->{
@@ -95,6 +99,10 @@ class AuthActivity : DaggerAppCompatActivity() {
         }else{
             progress_bar.visibility = View.GONE
         }
+    }
+
+    fun onLoginSuccess(){
+        startActivity<MainActivity>()
     }
 
 }
