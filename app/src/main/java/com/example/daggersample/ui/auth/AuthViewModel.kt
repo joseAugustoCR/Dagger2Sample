@@ -1,10 +1,9 @@
 package com.example.daggersample.ui.auth
 
-import aioria.com.br.kotlinbaseapp.networking.EndpointsInterface
+import aioria.com.br.kotlinbaseapp.networking.AuthApi
 import android.util.Log.d
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.example.daggersample.SessionManager
 import com.example.daggersample.networking.User
@@ -13,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class AuthViewModel @Inject constructor(var endpointsInterface: EndpointsInterface, var sessionManager: SessionManager) : ViewModel() {
+class AuthViewModel @Inject constructor(var authApi: AuthApi, var sessionManager: SessionManager) : ViewModel() {
 
 
     init {
@@ -27,7 +26,7 @@ class AuthViewModel @Inject constructor(var endpointsInterface: EndpointsInterfa
 
     fun queryUserId(id:Int) : LiveData<AuthResource<User>>{
         return LiveDataReactiveStreams.fromPublisher(
-            endpointsInterface.getUser(id)
+            authApi.getUser(id)
                 .onErrorReturn(Function<Throwable, User> {
                     val errorUser = User()
                     errorUser.id = -1

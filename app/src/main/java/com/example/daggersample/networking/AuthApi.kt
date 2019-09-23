@@ -10,7 +10,7 @@ import retrofit2.http.*
 import kotlin.collections.ArrayList
 
 
-interface EndpointsInterface{
+interface AuthApi{
 
     @GET("users/{id}")
     fun getUser(@Path("id") id:Int): Flowable<User>

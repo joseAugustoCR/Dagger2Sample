@@ -29,3 +29,10 @@ data class Geo(
     var lat: String? = null,
     var lng: String? = null
 )
+
+data class Post(
+    var body: String? = null,
+    var id: Int? = null,
+    var title: String? = null,
+    var userId: Int? = null
+)

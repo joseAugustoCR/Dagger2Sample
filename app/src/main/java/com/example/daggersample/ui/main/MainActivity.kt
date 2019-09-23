@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import com.example.daggersample.BaseActivity
 import com.example.daggersample.R
+import com.example.daggersample.ui.main.posts.PostsFragment
 import com.example.daggersample.ui.main.profile.ProfileFragment
 import com.example.daggersample.viewmodels.MainViewModel
 
@@ -33,6 +34,6 @@ class MainActivity : BaseActivity() {
     }
 
     fun testFragment(){
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, ProfileFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, PostsFragment()).commit()
     }
 }
