@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.example.daggersample.BaseActivity
 import com.example.daggersample.R
 import com.example.daggersample.ui.main.posts.PostsFragment
@@ -20,9 +22,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when(p0.itemId){
             R.id.profile ->{
-
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.profileScreen)
             }
             R.id.posts ->{
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.postsScreen)
 
             }
         }
@@ -34,7 +37,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        testFragment()
+        init()
     }
 
 
@@ -51,7 +54,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return super.onOptionsItemSelected(item)
     }
 
-    fun testFragment(){
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, PostsFragment()).commit()
+
+    fun init(){
+        var navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
+        NavigationUI.setupWithNavController(nav_view, navController)
+        nav_view.setNavigationItemSelectedListener(this)
+
     }
 }
