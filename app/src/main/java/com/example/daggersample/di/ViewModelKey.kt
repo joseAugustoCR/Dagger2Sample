@@ -5,9 +5,11 @@ import dagger.MapKey
 import java.lang.annotation.Documented
 import java.lang.annotation.ElementType
 import java.lang.annotation.RetentionPolicy;
+import javax.inject.Scope
 import kotlin.reflect.KClass
 
 
+@Scope
 @MustBeDocumented
 @Target(
     AnnotationTarget.FUNCTION,

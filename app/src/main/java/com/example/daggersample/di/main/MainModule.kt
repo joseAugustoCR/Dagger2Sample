@@ -12,14 +12,14 @@ class MainModule {
 
     @Module
     companion object {
-
-
+        @MainScope
         @JvmStatic
         @Provides
         fun provideAdapter(): PostAdapter {
             return PostAdapter()
         }
 
+        @MainScope
         @JvmStatic
         @Provides
         fun provideApi(retrofit: Retrofit): MainApi {
