@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.daggersample.R
+import com.example.daggersample.networking.BlogPost
 import com.example.daggersample.networking.Post
 import com.example.daggersample.ui.main.Resource
 import com.example.daggersample.utils.VerticalSpaceItemDecoration
@@ -27,6 +28,8 @@ class PostsFragment : DaggerFragment() {
     lateinit var providerFactory: ViewModelProviderFactory
 
     @Inject lateinit var adapter:PostAdapter
+
+    var blogListAdapter:BlogListAdapter?=null
 
 
     override fun onCreateView(
@@ -66,7 +69,10 @@ class PostsFragment : DaggerFragment() {
     fun initRecycler(){
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.addItemDecoration(VerticalSpaceItemDecoration(15))
-        recycler_view.adapter = adapter
+        blogListAdapter = BlogListAdapter()
+        recycler_view.adapter = blogListAdapter
+        var array = arrayListOf(BlogPost(), BlogPost(), BlogPost())
+        blogListAdapter?.submitList(array)
 
     }
 

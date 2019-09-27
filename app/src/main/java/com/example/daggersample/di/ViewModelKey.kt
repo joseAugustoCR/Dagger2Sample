@@ -9,7 +9,6 @@ import javax.inject.Scope
 import kotlin.reflect.KClass
 
 
-@Scope
 @MustBeDocumented
 @Target(
     AnnotationTarget.FUNCTION,

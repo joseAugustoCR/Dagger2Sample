@@ -36,3 +36,14 @@ data class Post(
     var title: String? = null,
     var userId: Int? = null
 )
+
+data class  BlogPost(
+    var pk:Int?=(1..9999).shuffled().first(),
+    var title:String?="title",
+    var body:String?=null,
+    var image:String?="https://s3.ca-central-1.amazonaws.com/codingwithmitch/media/Home+screen/Codingwithmitch.com+(1).png"
+){
+    override fun toString(): String {
+        return title.toString()
+    }
+}
