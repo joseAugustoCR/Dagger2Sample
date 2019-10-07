@@ -1,7 +1,10 @@
 package com.example.daggersample.ui.main
 
+import com.example.daggersample.utils.getErrorMsg
+import com.example.daggersample.utils.getStatusCode
 
-class Resource<T>(val status: Status, val data: T?, val message: String?) {
+
+class Resource<T>(val status: Status, val data: T?=null, val e:Throwable?=null,var msg:String?="", var statusCode:Int? = 0) {
 
     enum class Status {
         SUCCESS, ERROR, LOADING
@@ -13,8 +16,8 @@ class Resource<T>(val status: Status, val data: T?, val message: String?) {
             return Resource(Status.SUCCESS, data, null)
         }
 
-        fun <T> error(msg: String, data: T?): Resource<T> {
-            return Resource(Status.ERROR, data, msg)
+        fun <T> error(e: Throwable, data: T?): Resource<T> {
+            return Resource(Status.ERROR, data, e , e.getErrorMsg(), statusCode = e.getStatusCode())
         }
 
         fun <T> loading(data: T?): Resource<T> {

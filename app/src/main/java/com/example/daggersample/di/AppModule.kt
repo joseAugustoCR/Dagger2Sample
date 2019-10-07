@@ -3,18 +3,22 @@ package com.example.daggersample.di
 import android.app.Application
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.BuildConfig
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
-import com.example.daggersample.BuildConfig
 import com.example.daggersample.R
+import com.example.daggersample.networking.NetworkEvent
+import com.example.daggersample.networking.NetworkState
 import com.example.daggersample.utils.Constants
 import com.example.daggersample.utils.hasNetwork
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -28,10 +32,27 @@ class AppModule {
     @Module
     companion object {
 
+
         @Singleton
         @Provides
         @JvmStatic
-        fun provideHttpClient(application: Application) : OkHttpClient{
+        fun provideUnauthorizedInterceptor(application:Application) : Interceptor {
+            return object : Interceptor{
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    var originalResponse = chain.proceed(chain.request())
+                    if (originalResponse.code() == 401) {
+                        NetworkEvent.publish(NetworkState.UNAUTHORIZED)
+                    }
+                    return originalResponse
+                }
+
+            }
+        }
+
+        @Singleton
+        @Provides
+        @JvmStatic
+        fun provideHttpClient(application: Application, unauthorizedInterceptor: Interceptor) : OkHttpClient{
             var RETROFIT_LOG_LEVEL = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(RETROFIT_LOG_LEVEL)
@@ -74,6 +95,7 @@ class AppModule {
                     // Add the modified request to the chain.
                     chain.proceed(request)
                 }
+                .addInterceptor(unauthorizedInterceptor)
                 .connectTimeout(Constants.TIMEOUT, TimeUnit.SECONDS).readTimeout(Constants.TIMEOUT, TimeUnit.SECONDS).writeTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
                 .build()
 

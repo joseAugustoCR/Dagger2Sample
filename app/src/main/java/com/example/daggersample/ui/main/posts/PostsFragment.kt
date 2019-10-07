@@ -59,7 +59,8 @@ class PostsFragment : DaggerFragment() {
                 }
                 Resource.Status.ERROR ->{
                     d("posts", "error")
-                    Toast.makeText(activity as Context, "error", Toast.LENGTH_SHORT).show()
+                    // get the error message and the status code from the exception
+                    Toast.makeText(activity as Context, it.statusCode.toString() + " - " + it.msg, Toast.LENGTH_SHORT).show()
                 }
                 Resource.Status.LOADING -> {
                     d("posts", "loading")

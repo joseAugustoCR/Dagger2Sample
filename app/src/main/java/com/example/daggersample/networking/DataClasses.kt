@@ -47,3 +47,9 @@ data class  BlogPost(
         return title.toString()
     }
 }
+
+
+data class ErrorResponse(
+    var status:Int?=0,
+    var msg:String?=""
+)
